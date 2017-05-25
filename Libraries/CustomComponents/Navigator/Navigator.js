@@ -61,11 +61,15 @@ var SCREEN_WIDTH = Dimensions.get('window').width;
 var SCREEN_HEIGHT = Dimensions.get('window').height;
 var SCENE_DISABLED_NATIVE_PROPS = {
   pointerEvents: 'none',
-  style: {
-    top: SCREEN_HEIGHT,
-    bottom: -SCREEN_HEIGHT,
-    opacity: 0,
-  },
+  /** 
+   * Note:
+   * Style is removed because:
+   *   - LayoutAnimationManager.trigger confuses disableScene and enableScene, which 
+   *     causes black scene
+   * See issue: 
+   * Tapping back very fast twice will display empty view (e.g. SellBackScreen --> OrderListingScreen --> Profile)
+   */
+  style: {},
 };
 
 var __uid = 0;
