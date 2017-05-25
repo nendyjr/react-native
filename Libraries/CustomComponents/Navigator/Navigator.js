@@ -445,7 +445,7 @@ var Navigator = React.createClass({
     this._handlers = {};
     this.springSystem = new rebound.SpringSystem();
     this.spring = this.springSystem.createSpring();
-    this.spring.setRestSpeedThreshold(0.05);
+    this.spring.setRestSpeedThreshold(0);
     this.spring.setCurrentValue(0).setAtRest();
     this.spring.addListener({
       onSpringEndStateChange: () => {
@@ -1329,8 +1329,7 @@ var Navigator = React.createClass({
     var newRenderedSceneMap = new Map();
     var scenes = this.state.routeStack.map((route, index) => {
       var renderedScene;
-      if (this._renderedSceneMap.has(route) &&
-          index !== this.state.presentedIndex) {
+      if (this._renderedSceneMap.has(route))_ {
         renderedScene = this._renderedSceneMap.get(route);
       } else {
         renderedScene = this._renderScene(route, index);
