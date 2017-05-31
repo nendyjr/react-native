@@ -1333,7 +1333,7 @@ var Navigator = React.createClass({
     var newRenderedSceneMap = new Map();
     var scenes = this.state.routeStack.map((route, index) => {
       var renderedScene;
-      if (this._renderedSceneMap.has(route))_ {
+      if (this._renderedSceneMap.has(route)) {
         renderedScene = this._renderedSceneMap.get(route);
       } else {
         renderedScene = this._renderScene(route, index);
