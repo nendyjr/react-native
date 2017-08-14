@@ -455,6 +455,62 @@ var FromTheFront = {
   },
 };
 
+var ToTheBackReebonz = {
+  // Rotate *requires* you to break out each individual component of
+  // rotation (x, y, z, w)
+  transformTranslate: {
+    from: {x: 0, y: 0, z: 0},
+    to: {x: 0, y: 0, z: 0},
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true,
+    round: PIXEL_RATIO,
+  },
+  transformScale: {
+    from: {x: 1, y: 1, z: 1},
+    to: {x: 1, y: 1, z: 1},
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true
+  },
+  opacity: {
+    from: 1,
+    to: 1,
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: false,
+    round: 100,
+  },
+};
+
+var FromTheFrontReebonz = {
+  opacity: {
+    value: 1.0,
+    type: 'constant',
+  },
+  transformTranslate: {
+    from: {x: 0, y: SCREEN_HEIGHT, z: 0},
+    to: {x: 0, y: 0, z: 0},
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true,
+    round: PIXEL_RATIO,
+  },
+  translateY: {
+    from: SCREEN_HEIGHT,
+    to: 0,
+    min: 0,
+    max: 1,
+    type: 'linear',
+    extrapolate: true,
+    round: PIXEL_RATIO,
+  },
+};
+
 var ToTheBackAndroid = {
   opacity: {
     value: 1,
@@ -635,6 +691,21 @@ var NavigatorSceneConfigs = {
     animationInterpolators: {
       into: buildStyleInterpolator(FromTheFront),
       out: buildStyleInterpolator(ToTheBack),
+    },
+  },
+  FloatFromBottomReebonz: {
+    ...BaseConfig,
+    gestures: {
+      pop: {
+        ...directionMapping.BaseStartToEndGesture,
+        edgeHitWidth: 150,
+        direction: 'top-to-bottom',
+        fullDistance: SCREEN_HEIGHT,
+      }
+    },
+    animationInterpolators: {
+      into: buildStyleInterpolator(FromTheFrontReebonz),
+      out: buildStyleInterpolator(ToTheBackReebonz),
     },
   },
   FloatFromBottomAndroid: {
