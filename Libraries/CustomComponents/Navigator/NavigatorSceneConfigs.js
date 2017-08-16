@@ -455,7 +455,7 @@ var FromTheFront = {
   },
 };
 
-var ToTheBackReebonz = {
+var ToTheBackWithoutOpacity = {
   // Rotate *requires* you to break out each individual component of
   // rotation (x, y, z, w)
   transformTranslate: {
@@ -486,7 +486,7 @@ var ToTheBackReebonz = {
   },
 };
 
-var FromTheFrontReebonz = {
+var FromTheFrontWithoutOpacity = {
   opacity: {
     value: 1.0,
     type: 'constant',
@@ -693,7 +693,7 @@ var NavigatorSceneConfigs = {
       out: buildStyleInterpolator(ToTheBack),
     },
   },
-  FloatFromBottomReebonz: {
+  FloatFromBottomWithoutOpacity: {
     ...BaseConfig,
     gestures: {
       pop: {
@@ -704,8 +704,8 @@ var NavigatorSceneConfigs = {
       }
     },
     animationInterpolators: {
-      into: buildStyleInterpolator(FromTheFrontReebonz),
-      out: buildStyleInterpolator(ToTheBackReebonz),
+      into: buildStyleInterpolator(FromTheFrontWithoutOpacity),
+      out: buildStyleInterpolator(ToTheBackWithoutOpacity),
     },
   },
   FloatFromBottomAndroid: {
