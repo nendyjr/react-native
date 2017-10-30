@@ -73,9 +73,18 @@ numberOfRowsInComponent:(__unused NSInteger)component
 - (UIView *)pickerView:(UIPickerView *)pickerView
             viewForRow:(NSInteger)row
           forComponent:(NSInteger)component
-           reusingView:(UILabel *)label
+           reusingView:(UIView *)view
 {
-  if (!label) {
+  UILabel *label;
+  UIImageView *icon;
+  if (!view) {
+    view = [[UIView alloc] initWithFrame:(CGRect){
+      CGPointZero,
+      {
+        [pickerView rowSizeForComponent:component].width,
+        [pickerView rowSizeForComponent:component].height,
+      }
+    }];
     label = [[UILabel alloc] initWithFrame:(CGRect){
       CGPointZero,
       {
@@ -84,14 +93,35 @@ numberOfRowsInComponent:(__unused NSInteger)component
       }
     }];
   }
-
+  else{
+    label = [view.subviews objectAtIndex:0];
+  }
+  
+  for (UIView *child in view.subviews) {
+    [child removeFromSuperview];
+  }
+  
   label.font = _font;
-
+  
   label.textColor = [RCTConvert UIColor:_items[row][@"textColor"]] ?: _color;
-
+  
   label.textAlignment = _textAlign;
   label.text = [self pickerView:pickerView titleForRow:row forComponent:component];
-  return label;
+  [view addSubview:label];
+  
+  NSArray *imageSources = _items[row][@"image"];
+  if (imageSources != (id)[NSNull null]) {
+    if(imageSources.count > 0){
+      NSDictionary *source = imageSources[0];
+      icon = [[UIImageView alloc] initWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:source[@"uri"]]]]];
+      CGSize expectedLabelSize = [label.text boundingRectWithSize:label.frame.size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:label.font} context:nil].size;
+      [icon setFrame:CGRectMake(((view.frame.size.width/2) - (expectedLabelSize.width/2) - [source[@"width"] floatValue])-8, ([pickerView rowSizeForComponent:component].height/2) - ([source[@"width"] floatValue]/2) + 3, [source[@"width"] floatValue], [source[@"height"] floatValue])];
+      [view addSubview: icon];
+    }
+  }
+  
+  return view;
+//  return label;
 }
 
 - (void)pickerView:(__unused UIPickerView *)pickerView
