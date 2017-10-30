@@ -19,6 +19,8 @@ var StyleSheetPropType = require('StyleSheetPropType');
 var TextStylePropTypes = require('TextStylePropTypes');
 var View = require('View');
 var processColor = require('processColor');
+var resolveAssetSource = require('resolveAssetSource');
+var ImageSourcePropType = require('ImageSourcePropType');
 
 var itemStylePropType = StyleSheetPropType(TextStylePropTypes);
 var requireNativeComponent = require('requireNativeComponent');
@@ -49,10 +51,30 @@ var PickerIOS = React.createClass({
       if (child.props.value === props.selectedValue) {
         selectedIndex = index;
       }
+      let sources = null
+      if(child.props.image){
+        let source = resolveAssetSource(child.props.image) || { uri: undefined, width: undefined, height: undefined };
+        console.log("source image .. ", source);
+        let style;
+        if (Array.isArray(source)) {
+          // style = flattenStyle([styles.base, this.props.style]) || {};
+          sources = source;
+        } else {
+          const {width, height, uri} = source;
+          // style = flattenStyle([{width, height}, styles.base, this.props.style]) || {};
+          sources = [source];
+
+          if (uri === '') {
+            console.warn('source.uri should not be an empty string');
+          }
+        }
+      }
+
       items.push({
         value: child.props.value,
         label: child.props.label,
         textColor: processColor(child.props.color),
+        image: sources,
       });
     });
     return {selectedIndex, items};
@@ -101,6 +123,7 @@ PickerIOS.Item = class extends React.Component {
     value: React.PropTypes.any, // string or integer basically
     label: React.PropTypes.string,
     color: React.PropTypes.string,
+    image: ImageSourcePropType,
   };
 
   render() {
