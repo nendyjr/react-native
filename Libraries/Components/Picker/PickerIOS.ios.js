@@ -54,7 +54,6 @@ var PickerIOS = React.createClass({
       let sources = null
       if(child.props.image){
         let source = resolveAssetSource(child.props.image) || { uri: undefined, width: undefined, height: undefined };
-        console.log("source image .. ", source);
         let style;
         if (Array.isArray(source)) {
           // style = flattenStyle([styles.base, this.props.style]) || {};
