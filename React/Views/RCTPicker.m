@@ -113,7 +113,7 @@ numberOfRowsInComponent:(__unused NSInteger)component
   if (imageSources != (id)[NSNull null]) {
     if(imageSources.count > 0){
       NSDictionary *source = imageSources[0];
-      icon = [[UIImageView alloc] initWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:source[@"uri"]]]]];
+      icon = [[UIImageView alloc] initWithImage:[RCTConvert UIImage:source]];
       CGSize expectedLabelSize = [label.text boundingRectWithSize:label.frame.size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:label.font} context:nil].size;
       [icon setFrame:CGRectMake(((view.frame.size.width/2) - (expectedLabelSize.width/2) - [source[@"width"] floatValue])-8, ([pickerView rowSizeForComponent:component].height/2) - ([source[@"width"] floatValue]/2) + 3, [source[@"width"] floatValue], [source[@"height"] floatValue])];
       [view addSubview: icon];
